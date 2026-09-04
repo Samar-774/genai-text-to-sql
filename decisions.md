@@ -37,4 +37,9 @@ Keep this updated as you go. Paste it into any new chat alongside the roadmap fi
 
 ## Status
 - Day 1: COMPLETE. Schema designed, live in Postgres, fully seeded, verified with a hand-written 3+ table JOIN (order_items → orders → customers, + products).
-- Day 2: not started. Next up — minimal FastAPI endpoint, hardcoded SQL query, one LLM call for explanation, bare-bones Streamlit UI. "Prove the plumbing" day, no AI-generated SQL yet.
+- Day 2: COMPLETE. FastAPI + Postgres + Gemini + Streamlit, full chain working end-to-end.
+  - LLM provider decision: Gemini API (free tier), model `gemini-3.6-flash`.
+  - Bug hit: occasional `503 UNAVAILABLE` from Gemini under high demand — transient, not a code issue.
+  - Prompt lesson learned: a prompt needs an explicit instruction/command, not just stated facts — otherwise the model either asks what to do, or over-produces (headers/bullets) with no length constraint given.
+  - File structure: `main.py` (FastAPI + Postgres), `llm.py` (Gemini call), `dashboard.py` (Streamlit).
+  - Known issue to fix on Day 3: prompt doesn't yet constrain output length — currently produces good short paragraphs sometimes, longer multi-section answers other times.
