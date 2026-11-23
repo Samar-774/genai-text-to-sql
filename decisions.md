@@ -43,3 +43,35 @@ Keep this updated as you go. Paste it into any new chat alongside the roadmap fi
   - Prompt lesson learned: a prompt needs an explicit instruction/command, not just stated facts — otherwise the model either asks what to do, or over-produces (headers/bullets) with no length constraint given.
   - File structure: `main.py` (FastAPI + Postgres), `llm.py` (Gemini call), `dashboard.py` (Streamlit).
   - Known issue to fix on Day 3: prompt doesn't yet constrain output length — currently produces good short paragraphs sometimes, longer multi-section answers other times.
+
+
+- Day 3: COMPLETE. NL-to-SQL first pass working.
+  - `generate_sql()` in `llm.py` uses DDL-format schema from `schema.py` + 2 few-shot examples.
+  - `/query` endpoint in `main.py` accepts `?q=` param, returns generated SQL + columns + rows.
+  - `schema_description.py` completed with all 4 FK relationships spelled out.
+  - Known issue: LLM sometimes wraps SQL in markdown fences — needs stripping.
+- Day 4: COMPLETE. Few-shot prompting added (2 examples: inventory lookup + top customers by spend).
+  - Baseline test run: **5/5 questions produced correct SQL**.
+  - Q1 (simple count): ✅ correct
+  - Q2 (filter by customer_id): ✅ correct SQL, 0 rows (no orders for customer_id=5 in random data — data issue, not SQL issue)
+  - Q3 (two-table join + WHERE): ✅ correct
+  - Q4 (aggregation + join + ORDER BY + LIMIT): ✅ correct
+  - Q5 (3-table join + aggregation): ✅ correct
+  - Full results logged in `test_results.md`.
+- Days 5–6: COMPLETE. No systematic failures to debug at 5/5 baseline. Prompt structure locked.
+  - Accuracy: 5/5 correct SQL on test set.
+  - Remaining improvements: markdown fence stripping, guardrails, error handling.
+- Day 7: IN PROGRESS. Guardrails implementation.
+  - `guardrails.py` — SQL validation (SELECT-only allowlist), row limit, query timeout, safe execution wrapper.
+  - `llm.py` — `sanitize_sql()` to strip markdown fences from LLM output.
+- Day 8: IN PROGRESS. Grounded insights.
+  - `insights.py` — compute real statistics in Python, hand trusted numbers to LLM for interpretation.
+  - `/insights` endpoint added to `main.py`.
+
+- Day 9: COMPLETE. Streamlit UI overhauled in `dashboard.py`.
+  - Tab 1: Natural Language SQL Explorer with sample query buttons, generated SQL display in collapsible expander, results DataFrame, row count, and guardrail error alerts.
+  - Tab 2: Grounded Business Insights displaying real-time metrics cards and detailed analytical narratives from `/insights`.
+- Day 10: COMPLETE. Verified entire end-to-end flow with automated test suite in `verify_pipeline.py`. 6/6 guardrail tests passed. Safe and adversarial queries verified.
+- Days 11-12: COMPLETE.
+  - Pinned `requirements.txt` generated.
+  - `README.md` authored detailing architecture, guardrail defenses, grounded insights design, baseline accuracy, and local run instructions.

@@ -17,5 +17,8 @@ Table: order_items
 Columns: order_item_id (INTEGER, PK), order_id (INTEGER, FK→orders.order_id), product_id (INTEGER, FK→products.product_id), quantity_bought (INTEGER), price (NUMERIC)
 
 Relationships:
-- ...  ← you fill this in
+- Each order belongs to one customer (orders.customer_id → customers.customer_id)
+- Each order can have multiple order items (order_items.order_id → orders.order_id)
+- Each order item refers to one product (order_items.product_id → products.product_id)
+- Each product has exactly one inventory record (inventory.prod_id → products.product_id)
 """
