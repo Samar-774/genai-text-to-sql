@@ -38,23 +38,7 @@ def get_db_params():
 
 @app.get("/ping")
 def ping():
-    try:
-        conn = psycopg2.connect(**get_db_params())
-        cur = conn.cursor()
-        cur.execute("SELECT COUNT(*) FROM customers")
-        result = cur.fetchone()
-        cur.close()
-        conn.close()
-
-        count = result[0] if result else 0
-        prompt = (
-            f"My dataset has {count} customer rows. "
-            "Explain what this number of rows means for a business analytics dataset in one short paragraph."
-        )
-        explanation = get_explanation(prompt)
-        return {"total_customers": count, "explanation": explanation}
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+    return {"status": "ok"}
 
 
 @app.get("/query")
