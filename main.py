@@ -15,7 +15,19 @@ load_dotenv()
 app = FastAPI(title="ERP Analytics GenAI SQL API")
 
 
+import urllib.parse
+
 def get_db_params():
+    database_url = os.getenv("DATABASE_URL")
+    if database_url:
+        result = urllib.parse.urlparse(database_url)
+        return {
+            "host": result.hostname,
+            "database": result.path[1:],
+            "user": result.username,
+            "password": result.password,
+            "port": result.port,
+        }
     return {
         "host": "localhost",
         "database": "erp_analytics",

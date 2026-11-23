@@ -3,15 +3,27 @@ from faker import Faker
 import random
 import os
 from dotenv import load_dotenv
+import urllib.parse
 
 load_dotenv()
 
-conn = psycopg2.connect(
-    host="localhost",
-    database="erp_analytics",
-    user="postgres",
-    password=os.getenv("DB_PASSWORD")
-)
+database_url = os.getenv("DATABASE_URL")
+if database_url:
+    result = urllib.parse.urlparse(database_url)
+    conn = psycopg2.connect(
+        host=result.hostname,
+        database=result.path[1:],
+        user=result.username,
+        password=result.password,
+        port=result.port
+    )
+else:
+    conn = psycopg2.connect(
+        host="localhost",
+        database="erp_analytics",
+        user="postgres",
+        password=os.getenv("DB_PASSWORD")
+    )
 cur = conn.cursor()
 
 fake = Faker()
