@@ -54,6 +54,7 @@ with tab_query:
 
             if data:
                 if data.get("error"):
+                    st.write(data) 
                     st.error(f"🛑 Query Blocked or Failed:\n\n{data['error']}")
                     if data.get("sql"):
                         with st.expander("Inspected SQL"):
@@ -63,7 +64,7 @@ with tab_query:
                     
                     # Display generated SQL
                     with st.expander("🔍 View Generated SQL", expanded=True):
-                        st.code(data["sql"], language="sql")
+                        st.code(data.get("sql", "SQL not available"), language="sql")
                     
                     columns = data.get("columns", [])
                     rows = data.get("rows", [])
