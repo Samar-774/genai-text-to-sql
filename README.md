@@ -2,6 +2,8 @@
 
 An enterprise Text-to-SQL and grounded business intelligence platform built over an ERP relational schema. Allows business users to ask natural language questions, inspect generated SQL queries, and receive statistically grounded strategic insights with guardrails preventing unauthorized data mutation.
 
+🔗 **Live Demo**: [https://genai-text-to-sql.streamlit.app](https://genai-text-to-sql.streamlit.app)
+
 ---
 
 ## 🏗 Architecture Overview
@@ -88,6 +90,16 @@ Tested against a 5-question baseline of varying complexity:
 
 ---
 
+## ☁️ Deployment
+
+| Layer | Platform |
+|-------|----------|
+| Frontend | Streamlit Cloud |
+| Backend API | Render |
+| Database | Neon (Serverless PostgreSQL) |
+
+---
+
 ## 🛠 Local Setup & Installation
 
 ### Prerequisites
@@ -116,15 +128,13 @@ Copy `.env.example` to `.env` and fill in your credentials:
 cp .env.example .env
 ```
 ```ini
-DB_PASSWORD=your_postgres_password
+DATABASE_URL=your_neon_connection_string
 GEMINI_API_KEY=your_gemini_api_key
+DB_PASSWORD=your_local_postgres_password  # fallback for local dev only
 ```
 
 ### 3. Initialize Database & Seed Synthetic Data
 ```bash
-# In PostgreSQL, create the database:
-# CREATE DATABASE erp_analytics;
-
 # Seed tables with 100 customers, 30 products, 200 orders, 500 line items:
 python seed_data.py
 ```
@@ -149,3 +159,4 @@ App will open at: [http://localhost:8501](http://localhost:8501)
 - **Synthetic Price Variations**: Pricing in synthetic data is generated uniformly per line item rather than bound to a static catalog price list.
 - **Postgres Dialect**: Prompt schema and guardrails are tailored specifically for PostgreSQL syntax and type conventions.
 - **Single-Turn Interaction**: The current pipeline processes standalone queries without carrying conversational query state across turns.
+- **Cold Start**: The Render free tier may take 30–50 seconds to wake up after inactivity. The first query after a long idle period will be slower.

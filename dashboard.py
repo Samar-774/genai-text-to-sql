@@ -21,17 +21,19 @@ with tab_query:
     # Suggested queries for quick exploration
     st.markdown("**Quick sample prompts:**")
     col1, col2, col3 = st.columns(3)
-    sample_q = None
+    if "query_input" not in st.session_state:
+        st.session_state.query_input = ""
+
     if col1.button("📦 Which products are low on inventory (<10)?", use_container_width=True):
-        sample_q = "Which products have less than 10 items in inventory?"
+        st.session_state.query_input = "Which products have less than 10 items in inventory?"
     if col2.button("🏆 Top 5 products by revenue", use_container_width=True):
-        sample_q = "What are the top 5 products by total revenue?"
+        st.session_state.query_input = "What are the top 5 products by total revenue?"
     if col3.button("💰 Top customer by total spend", use_container_width=True):
-        sample_q = "Which customer spent the most money overall?"
+        st.session_state.query_input = "Which customer spent the most money overall?"
 
     query_input = st.text_input(
         "Enter your question in plain English:",
-        value=sample_q if sample_q else "",
+        value=st.session_state.query_input,
         placeholder="e.g. How many customers are there in the database?"
     )
 
