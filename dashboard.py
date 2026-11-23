@@ -82,7 +82,7 @@ with tab_insights:
     if st.button("🔄 Refresh Grounded Insights"):
         with st.spinner("Computing statistics and generating insights..."):
             try:
-                resp = requests.get(f"{API_BASE_URL}/insights", timeout=60)
+                resp = requests.get(f"{API_BASE_URL}/insights", timeout=120)
                 if resp.status_code == 200:
                     insights_data = resp.json().get("insights", [])
                     st.session_state["insights_data"] = insights_data
