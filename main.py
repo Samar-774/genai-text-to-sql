@@ -103,4 +103,5 @@ def insights():
             ]
         }
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Failed to generate insights: {e}")
+        import traceback
+        raise HTTPException(status_code=500, detail=f"Failed to generate insights: {traceback.format_exc()}")
