@@ -53,8 +53,7 @@ with tab_query:
                     data = None
 
             if data:
-                if data.get("error"):
-                    st.write(data) 
+                if data.get("error"): 
                     st.error(f"🛑 Query Blocked or Failed:\n\n{data['error']}")
                     if data.get("sql"):
                         with st.expander("Inspected SQL"):
