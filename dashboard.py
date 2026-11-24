@@ -43,7 +43,7 @@ with tab_query:
         else:
             with st.spinner("Generating SQL and querying database..."):
                 try:
-                    resp = requests.get(f"{API_BASE_URL}/query", params={"q": query_input}, timeout=60)
+                    resp = requests.get(f"{API_BASE_URL}/query", params={"q": query_input}, timeout=120)
                     data = resp.json()
                 except requests.exceptions.ConnectionError:
                     st.error("⚠️ Could not connect to FastAPI server at `127.0.0.1:8000`. Make sure the backend is running (`uvicorn main:app --reload`).")
